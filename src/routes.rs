@@ -25,7 +25,6 @@ pub fn router(state: AppState) -> Router {
         .route("/", get(home))
         .route("/health", get(health))
         .route("/call", post(start_call))
-        // .route("/webhook/voice", post(voice_webhook))
         .route("/session/:id", get(get_session))
         .route("/session/:id/analyze", post(analyze))
         .route("/webhook/vapi", post(vapi_webhook))

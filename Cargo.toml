@@ -17,3 +17,4 @@ dotenvy = "0.15"
 thiserror = "1"
 time = { version = "0.3", features = ["serde", "formatting"] }
 anyhow = "1.0.100"
+tower-http = { version = "0.5", features = ["cors"] }
