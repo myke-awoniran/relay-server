@@ -10,6 +10,7 @@ use crate::{
     voice,
 };
 
+use axum::http::Method;
 use axum::response::IntoResponse;
 use axum::{
     extract::{Path, State},
@@ -18,10 +19,17 @@ use axum::{
     Json, Router,
 };
 use time::OffsetDateTime;
+use tower_http::cors::{Any, CorsLayer};
 use uuid::Uuid;
 
 pub fn router(state: AppState) -> Router {
+    let cors = CorsLayer::new()
+        .allow_origin(Any)
+        .allow_methods([Method::GET, Method::POST, Method::PUT, Method::DELETE])
+        .allow_headers(Any);
+
     Router::new()
+        .layer(cors)
         .route("/", get(home))
         .route("/health", get(health))
         .route("/call", post(start_call))

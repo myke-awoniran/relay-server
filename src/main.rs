@@ -6,10 +6,8 @@ mod store;
 mod voice;
 mod voice_provider;
 
-use axum::http::Method;
 use dotenvy::dotenv;
 use std::env;
-use tower_http::cors::{Any, CorsLayer};
 use tracing_subscriber::EnvFilter;
 
 use store::AppState;
@@ -17,10 +15,6 @@ use store::AppState;
 #[tokio::main]
 async fn main() {
     dotenv().ok();
-    let cors = CorsLayer::new()
-        .allow_origin(Any)
-        .allow_methods([Method::GET, Method::POST, Method::PUT, Method::DELETE])
-        .allow_headers(Any);
 
     tracing_subscriber::fmt()
         .with_env_filter(EnvFilter::from_default_env().add_directive("info".parse().unwrap()))
