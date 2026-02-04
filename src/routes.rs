@@ -27,9 +27,7 @@ pub fn router(state: AppState) -> Router {
         .allow_origin(Any)
         .allow_methods([Method::GET, Method::POST, Method::PUT, Method::DELETE])
         .allow_headers(Any);
-
     Router::new()
-        .layer(cors)
         .route("/", get(home))
         .route("/health", get(health))
         .route("/call", post(start_call))
@@ -37,6 +35,7 @@ pub fn router(state: AppState) -> Router {
         .route("/session/:id/analyze", post(analyze))
         .route("/webhook/vapi", post(vapi_webhook))
         .fallback(any(undefined_routes))
+        .layer(cors)
         .with_state(state)
 }
 
