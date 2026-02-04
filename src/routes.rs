@@ -10,13 +10,13 @@ use crate::{
     voice,
 };
 
+use axum::response::IntoResponse;
 use axum::{
     extract::{Path, State},
     http::StatusCode,
-    routing::{get, post},
+    routing::{any, get, post},
     Json, Router,
 };
-
 use time::OffsetDateTime;
 use uuid::Uuid;
 
@@ -29,11 +29,16 @@ pub fn router(state: AppState) -> Router {
         .route("/session/:id", get(get_session))
         .route("/session/:id/analyze", post(analyze))
         .route("/webhook/vapi", post(vapi_webhook))
+        .fallback(any(undefined_routes))
         .with_state(state)
 }
 
 async fn health() -> &'static str {
     "ok"
+}
+
+async fn undefined_routes() -> impl IntoResponse {
+    (StatusCode::NOT_FOUND, "Resource endpoint not found.")
 }
 
 async fn home() -> &'static str {
